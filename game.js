@@ -12,13 +12,16 @@ $(document).on("keydown touchstart", function () {
   }
 });
 
-$(".btn").on("click touchstart", function () {
-  var userChosenColour = $(this).attr("id");
-  userClickedPattern.push(userChosenColour);
-  playSound(userChosenColour);
-  animatePress(userChosenColour);
-  var len = userClickedPattern.length;
-  checkAnswer(len - 1);
+$(".btn").on("click touchstart", function (event) {
+  event.stopPropagation(); // Prevent propagation to other elements
+  if (!pressed) {
+    var userChosenColour = $(this).attr("id");
+    userClickedPattern.push(userChosenColour);
+    playSound(userChosenColour);
+    animatePress(userChosenColour);
+    var len = userClickedPattern.length;
+    checkAnswer(len - 1);
+  }
 });
 
 function playSound(name) {
