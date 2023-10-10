@@ -4,7 +4,18 @@ var userClickedPattern = [];
 var pressed = false;
 var level = 0;
 
-$(document).on("keydown touchstart", function () {
+function isMobile() {
+  try {
+    document.createEvent("TouchEvent");
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+var clickEvent = isMobile() ? "touchstart" : "click";
+
+$(document).on("keydown", function () {
   if (!pressed) {
     nextSequence();
     pressed = true;
@@ -12,8 +23,8 @@ $(document).on("keydown touchstart", function () {
   }
 });
 
-$(".btn").on("click touchstart", function (event) {
-  event.stopPropagation(); // Prevent propagation to other elements
+$(".btn").on(clickEvent, function (event) {
+  event.stopPropagation();
   if (!pressed) {
     var userChosenColour = $(this).attr("id");
     userClickedPattern.push(userChosenColour);
